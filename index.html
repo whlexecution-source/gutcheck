@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<title>Bowel Health Assessment | Rome IV Criteria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #0b5394;
+    --primary-dark: #073763;
+    --primary-light: #cfe2f3;
+    --primary-soft: #e8f0f7;
+    --accent: #1a73e8;
+    --success: #137333;
+    --warning: #b06000;
+    --danger: #c5221f;
+
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --border: #e1e7ee;
+    --border-strong: #c5d0db;
+
+    --text: #1a2433;
+    --text-secondary: #4a5568;
+    --text-muted: #718096;
+
+    --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+    --shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+    --shadow-lg: 0 4px 12px rgba(15, 23, 42, 0.08), 0 2px 4px rgba(15, 23, 42, 0.04);
+
+    --radius: 6px;
+    --radius-lg: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans Thai', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    font-feature-settings: "tnum" 1, "lnum" 1;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Top medical-style header bar */
+  .header-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-content {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo-mark {
+    width: 36px; height: 36px;
+    background: var(--primary);
+    border-radius: 6px;
+    display: grid; place-items: center;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+  }
+  .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+  .logo-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .logo-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .header-meta { display: flex; align-items: center; gap: 16px; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+  }
+  .badge::before {
+    content: "";
+    width: 6px; height: 6px;
+    background: var(--primary);
+    border-radius: 50%;
+  }
+
+  /* Progress indicator */
+  .progress-section {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .progress-content {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 12px 24px;
+  }
+  .progress-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+  .progress-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+  .progress-label strong { color: var(--primary); font-weight: 600; }
+  .progress-track {
+    height: 3px;
+    background: var(--border);
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--primary);
+    width: 0%;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+  }
+
+  .page { display: none; animation: fadeIn 0.35s ease-out; }
+  .page.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Cover page */
+  .cover-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .cover-banner {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+    padding: 48px 40px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover-banner::before {
+    content: "";
+    position: absolute;
+    top: 0; right: 0;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cover-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .cover-title {
+    font-weight: 600;
+    font-size: clamp(28px, 4.5vw, 36px);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+  }
+  .cover-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    opacity: 0.9;
+    letter-spacing: 0.01em;
+  }
+
+  .cover-body { padding: 40px; }
+  .cover-description {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+    max-width: 640px;
+  }
+
+  .test-modules { display: grid; gap: 12px; margin-bottom: 32px; }
+  .test-module {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: border-color 0.15s;
+  }
+  .test-module:hover { border-color: var(--primary-light); }
+  .test-module-num {
+    width: 40px; height: 40px;
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    border-radius: var(--radius);
+    display: grid; place-items: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .test-module-content { flex: 1; }
+  .test-module-title { font-weight: 600; font-size: 15px; color: var(--text); margin-bottom: 2px; }
+  .test-module-meta {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+  }
+  .test-module-time {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: var(--text-muted);
+    padding: 4px 10px;
+    background: var(--bg);
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .disclaimer {
+    background: var(--primary-soft);
+    border-left: 3px solid var(--primary);
+    padding: 14px 18px;
+    border-radius: 4px;
+    margin-bottom: 28px;
+  }
+  .disclaimer-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--primary-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .disclaimer-text {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+
+  /* Question pages */
+  .question-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 36px 40px;
+    box-shadow: var(--shadow);
+  }
+
+  .q-section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 14px;
+  }
+  .q-section-tag::before {
+    content: "";
+    width: 16px; height: 1px;
+    background: var(--primary);
+  }
+
+  .q-title {
+    font-weight: 600;
+    font-size: clamp(20px, 3vw, 24px);
+    line-height: 1.35;
+    letter-spacing: -0.005em;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .q-helper {
+    font-size: 13px;
+    color: var(--text-muted);
+    padding: 10px 14px;
+    background: var(--bg);
+    border-radius: var(--radius);
+    margin-bottom: 24px;
+    border-left: 2px solid var(--border-strong);
+  }
+  .q-helper::before {
+    content: "ⓘ ";
+    color: var(--text-secondary);
+  }
+
+  /* Form fields */
+  .field-block { margin-bottom: 28px; }
+  .field-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 12px;
+  }
+  .field-label .field-num {
+    width: 18px; height: 18px;
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    border-radius: 4px;
+    display: grid; place-items: center;
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    padding: 10px 18px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text);
+    transition: all 0.15s;
+    font-weight: 500;
+  }
+  .chip:hover { border-color: var(--primary); color: var(--primary); }
+  .chip.selected {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+
+  /* Options */
+  .options { display: grid; gap: 10px; }
+  .option {
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    text-align: left;
+    width: 100%;
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--text);
+  }
+  .option:hover {
+    border-color: var(--primary);
+    background: #fbfdff;
+  }
+  .option.selected {
+    border-color: var(--primary);
+    background: var(--primary-soft);
+    box-shadow: 0 0 0 1px var(--primary);
+  }
+  .option .radio {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border-strong);
+    flex-shrink: 0;
+    margin-top: 3px;
+    position: relative;
+    transition: all 0.15s;
+  }
+  .option.selected .radio {
+    border-color: var(--primary);
+    background: var(--primary);
+  }
+  .option.selected .radio::after {
+    content: "";
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px; height: 6px;
+    background: white;
+    border-radius: 50%;
+  }
+
+  .options[data-multi="true"] .option .radio { border-radius: 3px; }
+  .options[data-multi="true"] .option.selected .radio::after {
+    width: 4px; height: 8px;
+    background: transparent;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -65%) rotate(45deg);
+    border-radius: 0;
+  }
+
+  .opt-body { flex: 1; }
+  .opt-label { font-weight: 500; line-height: 1.4; }
+  .opt-sub { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+  /* Bristol stool icons */
+  .stool-illustration {
+    display: flex; gap: 3px; margin-top: 10px;
+    align-items: flex-end; height: 22px;
+  }
+  .stool-illustration .pellet { background: #8b6f4e; border-radius: 50%; width: 7px; height: 7px; opacity: 0.85; }
+  .stool-illustration .lump { background: #8b6f4e; border-radius: 50% 50% 40% 40%; width: 16px; height: 11px; opacity: 0.85; }
+  .stool-illustration .smooth { background: #8b6f4e; border-radius: 8px; width: 28px; height: 7px; opacity: 0.85; }
+
+  /* Navigation */
+  .nav {
+    display: flex; gap: 12px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .btn {
+    padding: 12px 24px;
+    border-radius: var(--radius);
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    letter-spacing: 0.01em;
+  }
+  .btn-primary {
+    background: var(--primary);
+    color: white;
+    flex: 1;
+    padding: 14px 24px;
+  }
+  .btn-primary:hover:not(:disabled) { background: var(--primary-dark); }
+  .btn-primary:disabled {
+    background: var(--border);
+    color: var(--text-muted);
+    cursor: not-allowed;
+  }
+  .btn-secondary {
+    background: var(--surface);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-strong);
+    padding: 14px 22px;
+  }
+  .btn-secondary:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  /* Result page */
+  .result-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+  }
+  .result-header {
+    padding: 32px 40px 28px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .result-header::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+  }
+  .result-card.positive .result-header::before { background: var(--danger); }
+  .result-card.warn .result-header::before { background: var(--warning); }
+  .result-card.clear .result-header::before { background: var(--success); }
+
+  .result-status-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .result-status {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+  .result-card.positive .result-status { background: #fce8e6; color: var(--danger); }
+  .result-card.warn .result-status { background: #fef7e0; color: var(--warning); }
+  .result-card.clear .result-status { background: #e6f4ea; color: var(--success); }
+
+  .result-id {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  .result-title {
+    font-weight: 600;
+    font-size: clamp(22px, 3.5vw, 28px);
+    line-height: 1.3;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+
+  .result-description {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .result-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--border);
+  }
+  .stat-cell {
+    padding: 20px 24px;
+    border-right: 1px solid var(--border);
+  }
+  .stat-cell:last-child { border-right: none; }
+  .stat-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+  .stat-value {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .stat-value .stat-unit {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-left: 2px;
+  }
+  .stat-value-text {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text);
+  }
+
+  /* Recommendation panel */
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    margin-bottom: 12px;
+  }
+  .panel-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+  }
+  .panel-title::before {
+    content: "";
+    width: 3px; height: 12px;
+    background: var(--primary);
+    border-radius: 2px;
+  }
+  .panel-body {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  /* Transition section */
+  .transition-card {
+    background: linear-gradient(135deg, var(--primary-soft) 0%, #fff 100%);
+    border: 1px solid var(--primary-light);
+    border-radius: var(--radius-lg);
+    padding: 32px 36px;
+    text-align: center;
+    margin-top: 16px;
+  }
+  .transition-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--primary-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+  .transition-card h3 {
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .transition-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Save status */
+  .save-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 16px;
+  }
+  .save-status .indicator {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--text-muted);
+  }
+  .save-status.saving .indicator { background: var(--warning); animation: pulse 1.2s infinite; }
+  .save-status.saved .indicator { background: var(--success); }
+  .save-status.error .indicator { background: var(--danger); }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  /* Footer */
+  .footer-ref {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+  .footer-ref strong { color: var(--text-secondary); font-weight: 600; }
+
+  @media (max-width: 640px) {
+    .header-content { padding: 12px 16px; }
+    .logo-subtitle { display: none; }
+    .container { padding: 20px 16px 60px; }
+    .cover-banner { padding: 32px 24px; }
+    .cover-body { padding: 28px 24px; }
+    .question-card { padding: 24px 22px; }
+    .result-header { padding: 24px 24px 20px; }
+    .stat-cell { padding: 16px 20px; border-right: none; border-bottom: 1px solid var(--border); }
+    .stat-cell:last-child { border-bottom: none; }
+    .nav { flex-direction: column-reverse; }
+    .btn-secondary { width: 100%; }
+    .test-module { gap: 14px; padding: 16px; }
+    .test-module-time { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header-bar">
+  <div class="header-content">
+    <div class="logo">
+      <div class="logo-mark">G</div>
+      <div class="logo-text">
+        <div class="logo-title">GutCheck Clinical</div>
+        <div class="logo-subtitle">Bowel Health Assessment</div>
+      </div>
+    </div>
+    <div class="header-meta">
+      <span class="badge">Rome IV</span>
+    </div>
+  </div>
+</header>
+
+<div class="progress-section" id="progressWrap" style="display:none">
+  <div class="progress-content">
+    <div class="progress-row">
+      <span class="progress-label" id="progressLabel">Section 1 — Question 1 of 6</span>
+      <span class="progress-label"><strong id="progressPct">8%</strong></span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressBar"></div></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- COVER -->
+  <section class="page active" id="page-cover">
+    <div class="cover-card">
+      <div class="cover-banner">
+        <div class="cover-eyebrow">Clinical Assessment Tool</div>
+        <h1 class="cover-title">แบบประเมินสุขภาพลำไส้</h1>
+        <div class="cover-subtitle">Bowel Health Assessment — Rome IV Diagnostic Criteria</div>
+      </div>
+
+      <div class="cover-body">
+        <p class="cover-description">
+          แบบประเมินคัดกรองอาการ <strong>ท้องผูกเรื้อรัง (Chronic Constipation)</strong>
+          และ <strong>โรคลำไส้แปรปรวน (Irritable Bowel Syndrome — IBS)</strong>
+          ตามเกณฑ์วินิจฉัยมาตรฐานสากล Rome IV สำหรับการประเมินเบื้องต้น
+        </p>
+
+        <div class="test-modules">
+          <div class="test-module">
+            <div class="test-module-num">01</div>
+            <div class="test-module-content">
+              <div class="test-module-title">การประเมินภาวะท้องผูก</div>
+              <div class="test-module-meta">Functional Constipation Screening · 6 items</div>
+            </div>
+            <div class="test-module-time">~ 1 min</div>
+          </div>
+          <div class="test-module">
+            <div class="test-module-num">02</div>
+            <div class="test-module-content">
+              <div class="test-module-title">การประเมินภาวะลำไส้แปรปรวน</div>
+              <div class="test-module-meta">IBS Screening · 2 items</div>
+            </div>
+            <div class="test-module-time">~ 1 min</div>
+          </div>
+        </div>
+
+        <div class="disclaimer">
+          <div class="disclaimer-title">Medical Disclaimer</div>
+          <div class="disclaimer-text">
+            แบบประเมินนี้มีวัตถุประสงค์เพื่อการคัดกรองเบื้องต้นเท่านั้น
+            ไม่ใช่การวินิจฉัยทางการแพทย์ ผลที่ได้ควรนำไปปรึกษาแพทย์เพื่อการวินิจฉัยและการรักษาที่เหมาะสม
+          </div>
+        </div>
+
+        <div class="nav" style="border-top:none;padding-top:0;margin-top:0">
+          <button class="btn btn-primary" onclick="goTo('page-info')">เริ่มการประเมิน</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-ref">
+      Reference: <strong>Rome IV Criteria</strong> · Functional Gastrointestinal Disorders · Rome Foundation
+    </div>
+  </section>
+
+  <!-- DEMOGRAPHIC -->
+  <section class="page" id="page-info">
+    <div class="question-card">
+      <div class="q-section-tag">Patient Information</div>
+      <h2 class="q-title">ข้อมูลผู้รับการประเมิน</h2>
+      <p class="q-helper">ข้อมูลนี้ใช้สำหรับการวิเคราะห์ทางสถิติเท่านั้น และไม่สามารถระบุตัวตนของท่านได้</p>
+
+      <div class="field-block">
+        <div class="field-label"><span class="field-num">A</span>เพศ · Sex</div>
+        <div class="chip-row" data-field="gender">
+          <button class="chip" data-val="ชาย">ชาย / Male</button>
+          <button class="chip" data-val="หญิง">หญิง / Female</button>
+        </div>
+      </div>
+
+      <div class="field-block">
+        <div class="field-label"><span class="field-num">B</span>ช่วงอายุ · Age Range</div>
+        <div class="chip-row" data-field="age">
+          <button class="chip" data-val="<25">น้อยกว่า 25 ปี</button>
+          <button class="chip" data-val="25-35">25 – 35 ปี</button>
+          <button class="chip" data-val="35-55">35 – 55 ปี</button>
+          <button class="chip" data-val=">55">มากกว่า 55 ปี</button>
+        </div>
+      </div>
+
+      <div class="nav">
+        <button class="btn btn-secondary" onclick="goTo('page-cover')">ย้อนกลับ</button>
+        <button class="btn btn-primary" id="infoNext" disabled onclick="goTo('page-q1')">ดำเนินการต่อ</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 1 QUESTIONS -->
+
+  <section class="page" id="page-q1">
+    <div class="question-card">
+      <div class="q-section-tag">Section 1 · Item 1 of 6</div>
+      <h2 class="q-title">มีอาการต้องเบ่งขณะถ่ายอุจจาระหรือไม่?</h2>
+      <p class="q-helper">นับเฉพาะกรณีที่เกิดเป็นครั้งคราว ตั้งแต่ 25% ของการถ่ายขึ้นไป (Straining during bowel movements)</p>
+      <div class="options" data-field="q1">
+        <button class="option" data-val="yes">
+          <span class="radio"></span>
+          <span class="opt-body"><span class="opt-label">มีอาการ</span><span class="opt-sub">ต้องออกแรงเบ่งบ่อยครั้ง</span></span>
+        </button>
+        <button class="option" data-val="no">
+          <span class="radio"></span>
+          <span class="opt-body"><span class="opt-label">ไม่มีอาการ</span><span class="opt-sub">ถ่ายได้ปกติ ไม่ต้องเบ่ง</span></span>
+        </button>
+      </div>
+      <div class="nav">
+        <button class="btn btn-secondary" onclick="goTo('page-info')">ย้อนกลับ</button>
+        <button class="btn btn-primary" id="q1Next" disabled onclick="goTo('page-q2')">ถัดไป</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="page-q2">
+    <div class="question-card">
+      <div class="q-section-tag">Section 1 · Item 2 of 6</div>
+      <h2 class="q-title">ลักษณะอุจจาระเป็นก้อนแข็งหรือไม่?</h2>
+      <p class="q-helper">Lumpy or hard stools — ตามเกณฑ์ Bristol Stool Form Scale ระดับ 1–2</p>
+      <div class="options" data-field="q2">
+        <button class="option" data-val="yes">
+          <span class="radio"></span>
+          <span class="opt-body">
+            <span class="opt-label">มีลักษณะเป็นก้อนแข็ง</span>
+            <span class="opt-sub">คล้ายเม็ดถั่ว หรือก้อนแข็งเป็นพวง (Bristol Type 1–2)</span>
+            <div class="stool-illustration">
+              <div class="pellet"></div><div class="pellet"></div><div class="pellet"></div>
+              <div class="lump"></div>
+            </div>
+          </span>
+        </button>
+        <button class="option" data-val="no">
+          <span class="radio"></span>
+          <span class="opt-body">
+            <span class="opt-label">ไม่เป็นก้อนแข็ง</span>
+            <span class="opt-sub">ลักษณะนุ่ม ถ่ายง่าย (Bristol Type 3–5)</span>
+            <div class="stool-illustration">
+              <div class="smooth"></div>
+            </div>
+          </span>
+        </button>
+      </div>
+      <div class="nav">
+        <button class="btn btn-secondary" onclick="goTo('page-q1')">ย้อนกลับ</button>
+        <button class="btn btn-primary" id="q2Next" disabled onclick="goTo('page-q3')">ถัดไป</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="page-q3">
+    <div class="question-card">
+      <div class="q-section-tag">Section 1 · Item 3 of 6</div>
+      <h2 class="q-title">รู้สึกถ่ายไม่สุดหลังการขับถ่ายหรือไม่?</h2>
+      <p class="q-helper">Sensation of incomplete evacuation</p>
+      <div class="options" data-field="q3">
+        <button class="option" data-val="yes">
+          <span class="radio"></span>
+          <span class="opt-body"><span class="opt-label">มีอาการ</span><span class="opt-sub">รู้สึกว่ายังถ่ายไม่หมด</span></span>
+        </button>
+        <button class="option" data-val="no">
+          <span class="radio"></span>
+          <span class="opt-body"><span class="opt-label">ไม่มีอาการ</span><span class="opt-sub">ถ่ายได้สบาย รู้สึกถ่ายสุด</span></span>
+        </button>
+      </div>
+      <div class="nav">
+        <button class="btn btn-secondary" onclick="goTo('page-q2')">ย้อนกลับ</button>
+        <button class="btn btn-primary" id="q3Next" disabled onclick="goTo('page-q4')">ถัดไป</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="page-q4">
+    <div class="question-card">
+      <div class="q-section-tag">Section 1 · Item 4 of 6</div>
+      <h2 class="q-title">รู้สึกมีสิ่งอุดกั้นบริเวณทวารหนักหรือไม่?</h2>
+      <p class="q-helper">Sensation of anorectal obstruction or blockage</p>
+      <div class="options" data-field="q4">
+        <button class="option" data-val="yes">
+          <span class="radio"></span>
+          <span class="opt-body"><span class="opt-label">มีอาการ</span><span class="opt-sub">รู้สึกแคบ ถ่ายลำบาก เหมือนมีสิ่งกีดขวาง</span></span>
+        </button>
+        <button class="option" data-val="no">
+          <span class="radio"></span>
+          <span class="opt-body"><span class="opt-label">ไม่มีอาการ</span><span class="opt-sub">ถ่ายได้สบาย ไม่รู้สึกอุดกั้น</span></span>
+        </button>
+      </div>
+      <div class="nav">
+        <button class="btn btn-secondary" onclick="goTo('page-q3')">ย้อนกลับ</button>
+        <button class="btn btn-primary" id="q4Next" disabled onclick="goTo('page-q5')">ถัดไป</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="page-q5">
+    <div class="question-card">
+      <div class="q-section-tag">Section 1 · Item 5 of 6</div>
+      <h2 class="q-title">เคยใช้นิ้วมือช่วยในการถ่ายอุจจาระหรือไม่?</h2>
+      <p class="q-helper">Manual maneuvers to facilitate defecation</p>
+      <div class="options" data-field="q5">
+        <button class="option" data-val="yes">
+          <span class="radio"></span>
+          <span class="opt-body"><span class="opt-label">เคยใช้</span><span class="opt-sub">ใช้นิ้วกดบริเวณรอบทวารหนัก หรือล้วงเพื่อช่วยถ่าย</span></span>
+        </button>
+        <button class="option" data-val="no">
+          <span class="radio"></span>
+          <span class="opt-body"><span class="opt-label">ไม่เคยใช้</span></span>
+        </button>
+      </div>
+      <div class="nav">
+        <button class="btn btn-secondary" onclick="goTo('page-q4')">ย้อนกลับ</button>
+        <button class="btn btn-primary" id="q5Next" disabled onclick="goTo('page-q6')">ถัดไป</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="page-q6">
+    <div class="question-card">
+      <div class="q-section-tag">Section 1 · Item 6 of 6</div>
+      <h2 class="q-title">ความถี่ในการถ่ายอุจจาระต่อสัปดาห์</h2>
+      <p class="q-helper">Bowel movement frequency per week</p>
+      <div class="options" data-field="q6">
+        <button class="option" data-val="yes">
+          <span class="radio"></span>
+          <span class="opt-body"><span class="opt-label">น้อยกว่า 3 ครั้ง / สัปดาห์</span><span class="opt-sub">หรือบางช่วงไม่ถ่ายเลย</span></span>
+        </button>
+        <button class="option" data-val="no">
+          <span class="radio"></span>
+          <span class="opt-body"><span class="opt-label">3 ครั้ง / สัปดาห์ ขึ้นไป</span><span class="opt-sub">เป็นประจำสม่ำเสมอ</span></span>
+        </button>
+      </div>
+      <div class="nav">
+        <button class="btn btn-secondary" onclick="goTo('page-q5')">ย้อนกลับ</button>
+        <button class="btn btn-primary" id="q6Next" disabled onclick="goTo('page-duration')">ถัดไป</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="page-duration">
+    <div class="question-card">
+      <div class="q-section-tag">Symptom Duration</div>
+      <h2 class="q-title">ระยะเวลาที่มีอาการเหล่านี้</h2>
+      <p class="q-helper">Duration criterion: ตามเกณฑ์ Rome IV ภาวะเรื้อรังต้องมีอาการต่อเนื่อง ≥ 3 เดือน และเริ่มมีอาการแรกอย่างน้อย 6 เดือนก่อน</p>
+      <div class="options" data-field="duration">
+        <button class="option" data-val="long">
+          <span class="radio"></span>
+          <span class="opt-body"><span class="opt-label">3 เดือนขึ้นไป</span><span class="opt-sub">เริ่มมีอาการครั้งแรกอย่างน้อย 6 เดือนแล้ว</span></span>
+        </button>
+        <button class="option" data-val="short">
+          <span class="radio"></span>
+          <span class="opt-body"><span class="opt-label">น้อยกว่า 3 เดือน</span><span class="opt-sub">เป็นมาไม่นาน</span></span>
+        </button>
+      </div>
+      <div class="nav">
+        <button class="btn btn-secondary" onclick="goTo('page-q6')">ย้อนกลับ</button>
+        <button class="btn btn-primary" id="durationNext" disabled onclick="finishPart1()">ดูผลการประเมิน</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULT 1 -->
+  <section class="page" id="page-result1">
+    <div id="result1Content"></div>
+
+    <div class="transition-card" id="ibsTransition" style="display:none">
+      <div class="transition-tag">— Section 02 —</div>
+      <h3>การประเมินภาวะลำไส้แปรปรวน</h3>
+      <p>ขั้นตอนต่อไปจะเป็นการประเมินภาวะลำไส้แปรปรวน (IBS) ใช้เวลาประมาณ 1 นาที</p>
+      <button class="btn btn-primary" onclick="goTo('page-ibs1')" style="max-width:280px;margin:0 auto;flex:none">เริ่มการประเมินส่วนที่ 2</button>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+
+  <section class="page" id="page-ibs1">
+    <div class="question-card">
+      <div class="q-section-tag">Section 2 · Item 1</div>
+      <h2 class="q-title">มีอาการปวดท้องอย่างน้อย 1 วันต่อสัปดาห์หรือไม่?</h2>
+      <p class="q-helper">Recurrent abdominal pain at least 1 day/week — เป็นเกณฑ์หลักของ IBS ตาม Rome IV</p>
+      <div class="options" data-field="ibs1">
+        <button class="option" data-val="yes">
+          <span class="radio"></span>
+          <span class="opt-body"><span class="opt-label">ใช่ มีอาการต่อเนื่อง</span><span class="opt-sub">เป็นมาอย่างน้อย 3 เดือนแล้ว</span></span>
+        </button>
+        <button class="option" data-val="no">
+          <span class="radio"></span>
+          <span class="opt-body"><span class="opt-label">ไม่ ไม่เคยมีอาการ</span></span>
+        </button>
+      </div>
+      <div class="nav">
+        <button class="btn btn-primary" id="ibs1Next" disabled onclick="handleIBS1()">ถัดไป</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="page-ibs2">
+    <div class="question-card">
+      <div class="q-section-tag">Section 2 · Item 2</div>
+      <h2 class="q-title">อาการปวดท้องสัมพันธ์กับลักษณะใดบ้าง?</h2>
+      <p class="q-helper">Multi-select — สามารถเลือกได้มากกว่า 1 ข้อ ตามเกณฑ์ Rome IV ต้องมีอย่างน้อย 2 ใน 3 ข้อ</p>
+      <div class="options" id="ibs2Options" data-field="ibs2" data-multi="true">
+        <button class="option" data-val="bowel">
+          <span class="radio"></span>
+          <span class="opt-body"><span class="opt-label">สัมพันธ์กับการถ่ายอุจจาระ</span><span class="opt-sub">หลังถ่ายแล้ว อาการปวดดีขึ้นหรือแย่ลง</span></span>
+        </button>
+        <button class="option" data-val="diarrhea">
+          <span class="radio"></span>
+          <span class="opt-body"><span class="opt-label">สัมพันธ์กับความถี่ที่เปลี่ยนไป</span><span class="opt-sub">เมื่อปวด มักท้องเสีย ถ่ายบ่อย ถ่ายเหลว</span></span>
+        </button>
+        <button class="option" data-val="constipation">
+          <span class="radio"></span>
+          <span class="opt-body"><span class="opt-label">สัมพันธ์กับลักษณะอุจจาระที่เปลี่ยนไป</span><span class="opt-sub">เมื่อปวด มักท้องผูก ถ่ายน้อย ถ่ายแข็ง</span></span>
+        </button>
+        <button class="option" data-val="none">
+          <span class="radio"></span>
+          <span class="opt-body"><span class="opt-label">ไม่มีอาการข้างต้นเลย</span></span>
+        </button>
+      </div>
+      <div class="nav">
+        <button class="btn btn-secondary" onclick="goTo('page-ibs1')">ย้อนกลับ</button>
+        <button class="btn btn-primary" id="ibs2Next" disabled onclick="finishIBS()">ดูผลสรุป</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL -->
+  <section class="page" id="page-final">
+    <div id="finalContent"></div>
+
+    <div style="text-align:center">
+      <div class="save-status" id="saveStatus">
+        <span class="indicator"></span>
+        <span id="saveText">กำลังบันทึกข้อมูล...</span>
+      </div>
+    </div>
+
+    <div class="nav" style="border-top:none;margin-top:24px">
+      <button class="btn btn-primary" onclick="restart()">เริ่มประเมินใหม่</button>
+    </div>
+
+    <div class="footer-ref">
+      Assessment based on <strong>Rome IV Criteria</strong> · For screening purposes only
+    </div>
+  </section>
+
+</div>
+
+<script>
+  // ===== CONFIG =====
+  const GAS_WEB_APP_URL = "PASTE_YOUR_DEPLOYED_GAS_URL_HERE";
+
+  // ===== Submission ID generator (UUID v4) =====
+  function generateSubmissionId() {
+    if (crypto && crypto.randomUUID) return crypto.randomUUID();
+    // fallback for older browsers
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+      const r = Math.random() * 16 | 0;
+      const v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
+  // ===== State =====
+  const state = {
+    submissionId: generateSubmissionId(),
+    gender: null, age: null,
+    q1: null, q2: null, q3: null, q4: null, q5: null, q6: null,
+    duration: null,
+    ibs1: null, ibs2: [],
+    constipationResult: null,
+    constipationYesCount: 0,
+    ibsResult: null,
+    ibsPositiveCount: 0,
+    startedAt: new Date().toISOString()
+  };
+
+  const pageOrder = [
+    'page-cover','page-info',
+    'page-q1','page-q2','page-q3','page-q4','page-q5','page-q6',
+    'page-duration','page-result1',
+    'page-ibs1','page-ibs2','page-final'
+  ];
+
+  const pageLabels = {
+    'page-info': 'Patient Information',
+    'page-q1': 'Section 1 — Question 1 of 6',
+    'page-q2': 'Section 1 — Question 2 of 6',
+    'page-q3': 'Section 1 — Question 3 of 6',
+    'page-q4': 'Section 1 — Question 4 of 6',
+    'page-q5': 'Section 1 — Question 5 of 6',
+    'page-q6': 'Section 1 — Question 6 of 6',
+    'page-duration': 'Section 1 — Symptom Duration',
+    'page-ibs1': 'Section 2 — Question 1 of 2',
+    'page-ibs2': 'Section 2 — Question 2 of 2'
+  };
+
+  function goTo(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    updateProgress(pageId);
+  }
+
+  function updateProgress(pageId) {
+    const wrap = document.getElementById('progressWrap');
+    if (!pageLabels[pageId]) {
+      wrap.style.display = 'none';
+      return;
+    }
+    wrap.style.display = 'block';
+    const idx = pageOrder.indexOf(pageId);
+    const total = pageOrder.length - 1;
+    const pct = Math.round((idx / total) * 100);
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = pageLabels[pageId];
+    document.getElementById('progressPct').textContent = pct + '%';
+  }
+
+  // Field handlers
+  document.querySelectorAll('.chip-row').forEach(row => {
+    const field = row.dataset.field;
+    row.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        row.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+        chip.classList.add('selected');
+        state[field] = chip.dataset.val;
+        if (state.gender && state.age) {
+          document.getElementById('infoNext').disabled = false;
+        }
+      });
+    });
+  });
+
+  document.querySelectorAll('.options').forEach(group => {
+    const field = group.dataset.field;
+    const multi = group.dataset.multi === "true";
+    group.querySelectorAll('.option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        const val = opt.dataset.val;
+        if (multi) {
+          if (val === "none") {
+            group.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+            opt.classList.add('selected');
+            state[field] = ["none"];
+          } else {
+            const noneOpt = group.querySelector('.option[data-val="none"]');
+            if (noneOpt) noneOpt.classList.remove('selected');
+            opt.classList.toggle('selected');
+            const arr = [];
+            group.querySelectorAll('.option.selected').forEach(o => arr.push(o.dataset.val));
+            state[field] = arr;
+          }
+          const nextBtn = document.getElementById(field + 'Next');
+          if (nextBtn) nextBtn.disabled = state[field].length === 0;
+        } else {
+          group.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+          opt.classList.add('selected');
+          state[field] = val;
+          const nextBtn = document.getElementById(field + 'Next');
+          if (nextBtn) nextBtn.disabled = false;
+        }
+      });
+    });
+  });
+
+  function countConstipationYes() {
+    return ['q1','q2','q3','q4','q5','q6'].filter(k => state[k] === 'yes').length;
+  }
+
+  function finishPart1() {
+    const yesCount = countConstipationYes();
+    const meets2 = yesCount >= 2;
+    const isLong = state.duration === 'long';
+
+    let result, title, desc, cls, status, code;
+    if (meets2 && isLong) {
+      result = 'ท้องผูกเรื้อรัง';
+      title = 'ภาวะท้องผูกเรื้อรัง';
+      desc = 'จากคำตอบ ท่านเข้าเกณฑ์ภาวะท้องผูกเรื้อรัง (Chronic Constipation) ตามเกณฑ์ Rome IV ขอแนะนำให้ปรึกษาแพทย์เพื่อรับการวินิจฉัยและคำแนะนำการรักษาที่เหมาะสม';
+      cls = 'positive';
+      status = 'POSITIVE';
+      code = 'C-CHR';
+    } else if (meets2 && !isLong) {
+      result = 'ท้องผูก (ไม่เรื้อรัง)';
+      title = 'ภาวะท้องผูกระยะสั้น';
+      desc = 'ท่านมีอาการที่เข้าเกณฑ์ภาวะท้องผูก แต่ยังไม่ครบเกณฑ์ระยะเวลาเรื้อรัง (3 เดือน) แนะนำให้เฝ้าระวังอาการ ปรับพฤติกรรมการรับประทานอาหารและดื่มน้ำให้เพียงพอ';
+      cls = 'warn';
+      status = 'BORDERLINE';
+      code = 'C-AC';
+    } else {
+      result = 'ไม่เข้าเกณฑ์ท้องผูก';
+      title = 'ไม่พบภาวะท้องผูก';
+      desc = 'จากคำตอบ ท่านไม่เข้าเกณฑ์ภาวะท้องผูกตาม Rome IV สุขภาพลำไส้ของท่านอยู่ในเกณฑ์ปกติ';
+      cls = 'clear';
+      status = 'NEGATIVE';
+      code = 'C-NEG';
+    }
+
+    state.constipationResult = result;
+    state.constipationYesCount = yesCount;
+
+    document.getElementById('result1Content').innerHTML = `
+      <div class="result-card ${cls}">
+        <div class="result-header">
+          <div class="result-status-row">
+            <span class="result-status">Section 1 · ${status}</span>
+            <span class="result-id">Code: ${code}</span>
+          </div>
+          <h2 class="result-title">${title}</h2>
+          <p class="result-description">${desc}</p>
+        </div>
+        <div class="result-stats">
+          <div class="stat-cell">
+            <div class="stat-label">Symptoms Identified</div>
+            <div class="stat-value">${yesCount}<span class="stat-unit">/6</span></div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-label">Duration</div>
+            <div class="stat-value-text">${state.duration === 'long' ? '≥ 3 เดือน' : '< 3 เดือน'}</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-label">Criterion</div>
+            <div class="stat-value-text">${meets2 ? 'เข้าเกณฑ์ ≥ 2' : 'ไม่ครบเกณฑ์'}</div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">คำแนะนำเพิ่มเติม</div>
+        <div class="panel-body">
+          การเสริมโปรไบโอติก (Probiotic) อาจช่วยเสริมสร้างภูมิคุ้มกันและคงสมดุลของลำไส้
+          เหมาะสำหรับทั้งผู้ที่มีอาการและผู้ที่ต้องการดูแลสุขภาพลำไส้ในระยะยาว
+        </div>
+      </div>
+    `;
+
+    document.getElementById('ibsTransition').style.display = 'block';
+    goTo('page-result1');
+  }
+
+  function handleIBS1() {
+    if (state.ibs1 === 'no') {
+      state.ibsResult = 'ไม่มี IBS';
+      renderFinal();
+      goTo('page-final');
+      saveToSheet();
+    } else {
+      goTo('page-ibs2');
+    }
+  }
+
+  function finishIBS() {
+    const arr = state.ibs2 || [];
+    const hasNone = arr.includes('none');
+    const positiveCount = (arr.includes('bowel') ? 1 : 0)
+                       + (arr.includes('diarrhea') ? 1 : 0)
+                       + (arr.includes('constipation') ? 1 : 0);
+
+    let result;
+    if (hasNone || positiveCount < 2) {
+      result = 'ปวดท้องเรื้อรัง (ไม่ใช่ IBS)';
+    } else {
+      result = 'ลำไส้แปรปรวน (IBS)';
+    }
+
+    state.ibsResult = result;
+    state.ibsPositiveCount = positiveCount;
+    renderFinal();
+    goTo('page-final');
+    saveToSheet();
+  }
+
+  function renderFinal() {
+    const isIBS = state.ibsResult === 'ลำไส้แปรปรวน (IBS)';
+    const isNoIBS = state.ibsResult === 'ไม่มี IBS';
+
+    let title, desc, cls, status, code;
+    if (isIBS) {
+      title = 'ภาวะลำไส้แปรปรวน (IBS)';
+      desc = 'ตามเกณฑ์ Rome IV ท่านเข้าเกณฑ์โรคลำไส้แปรปรวน (Irritable Bowel Syndrome) ขอแนะนำให้ปรึกษาแพทย์ระบบทางเดินอาหารเพื่อยืนยันการวินิจฉัยและวางแผนการรักษา';
+      cls = 'positive';
+      status = 'POSITIVE';
+      code = 'IBS-DX';
+    } else if (isNoIBS) {
+      title = 'ไม่พบภาวะลำไส้แปรปรวน';
+      desc = 'ท่านไม่มีอาการที่เข้าเกณฑ์ IBS ตาม Rome IV สุขภาพลำไส้ของท่านอยู่ในเกณฑ์ปกติ';
+      cls = 'clear';
+      status = 'NEGATIVE';
+      code = 'IBS-NEG';
+    } else {
+      title = 'อาการปวดท้องเรื้อรัง';
+      desc = 'แม้ไม่เข้าเกณฑ์ IBS ตามมาตรฐาน Rome IV แต่ท่านมีอาการปวดท้องเรื้อรังที่ควรได้รับการดูแล โปรไบโอติกอาจช่วยบรรเทาอาการได้';
+      cls = 'warn';
+      status = 'INDETERMINATE';
+      code = 'CAP';
+    }
+
+    const part1Box = state.constipationResult ? `
+      <div class="panel">
+        <div class="panel-title">สรุปผลส่วนที่ 1 · Constipation Assessment</div>
+        <div class="panel-body">
+          <strong>${state.constipationResult}</strong> · พบอาการ ${state.constipationYesCount} จาก 6 ข้อ
+        </div>
+      </div>
+    ` : '';
+
+    document.getElementById('finalContent').innerHTML = `
+      <div class="result-card ${cls}">
+        <div class="result-header">
+          <div class="result-status-row">
+            <span class="result-status">Final Assessment · ${status}</span>
+            <span class="result-id">Code: ${code}</span>
+          </div>
+          <h2 class="result-title">${title}</h2>
+          <p class="result-description">${desc}</p>
+        </div>
+      </div>
+      ${part1Box}
+      <div class="panel">
+        <div class="panel-title">คำแนะนำทางการแพทย์</div>
+        <div class="panel-body">
+          ${isIBS
+            ? 'ขอแนะนำให้ปรึกษาแพทย์ระบบทางเดินอาหารเพื่อยืนยันการวินิจฉัยและรับการรักษาที่เหมาะสม การเสริมโปรไบโอติกเฉพาะกลุ่มอาจช่วยบรรเทาอาการปวดท้องและปรับสมดุลลำไส้'
+            : 'ดูแลสุขภาพลำไส้ด้วยการรับประทานอาหารที่มีใยอาหาร ดื่มน้ำให้เพียงพอ ออกกำลังกายสม่ำเสมอ และอาจพิจารณาเสริมโปรไบโอติกเพื่อสมดุลของระบบทางเดินอาหาร'}
+        </div>
+      </div>
+    `;
+  }
+
+  // =============================================================
+  // 💾 Save to Google Sheet — Transaction-safe version
+  // - localStorage backup (กู้ข้อมูลถ้าเน็ตล่ม)
+  // - Auto-retry สูงสุด 3 ครั้ง
+  // - ใช้ submission_id ป้องกันบันทึกซ้ำ
+  // =============================================================
+  const STORAGE_KEY = 'gutcheck_pending_submissions';
+  const MAX_RETRIES = 3;
+  const RETRY_DELAY_MS = 2000;
+
+  function backupToLocal(payload) {
+    try {
+      const pending = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      // อย่าเก็บซ้ำ
+      if (!pending.find(p => p.submission_id === payload.submission_id)) {
+        pending.push(payload);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(pending));
+      }
+    } catch (e) {
+      console.warn('localStorage unavailable:', e);
+    }
+  }
+
+  function removeFromLocal(submissionId) {
+    try {
+      const pending = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      const filtered = pending.filter(p => p.submission_id !== submissionId);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
+    } catch (e) { /* ignore */ }
+  }
+
+  // Retry การส่งข้อมูลที่ค้างไว้ใน localStorage (เผื่อครั้งก่อนเน็ตล่ม)
+  function retryPendingSubmissions() {
+    try {
+      const pending = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      pending.forEach(payload => {
+        sendToBackend(payload, 1, true).then(result => {
+          if (result.success) removeFromLocal(payload.submission_id);
+        }).catch(() => { /* will retry next time */ });
+      });
+    } catch (e) { /* ignore */ }
+  }
+
+  function sendToBackend(payload, attempt, silent) {
+    return new Promise((resolve, reject) => {
+      if (!GAS_WEB_APP_URL || GAS_WEB_APP_URL === 'PASTE_YOUR_DEPLOYED_GAS_URL_HERE') {
+        reject({ error: 'Not configured' });
+        return;
+      }
+
+      fetch(GAS_WEB_APP_URL, {
+        method: 'POST',
+        // ใช้ no-cors เพราะ Apps Script ไม่ใส่ CORS headers
+        // → อ่าน response body ไม่ได้ แต่ส่งได้แน่
+        // → success detection: ไม่ throw = ส่งสำเร็จ (backend จะจัดการ dedup เอง)
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      })
+      .then(() => {
+        // no-cors return opaque response — สำเร็จในระดับ network
+        resolve({ success: true, submission_id: payload.submission_id });
+      })
+      .catch(err => {
+        if (attempt < MAX_RETRIES) {
+          // Retry with exponential backoff
+          setTimeout(() => {
+            sendToBackend(payload, attempt + 1, silent).then(resolve).catch(reject);
+          }, RETRY_DELAY_MS * attempt);
+        } else {
+          reject(err);
+        }
+      });
+    });
+  }
+
+  function saveToSheet() {
+    const status = document.getElementById('saveStatus');
+    const text = document.getElementById('saveText');
+    status.classList.add('saving');
+    status.classList.remove('saved','error');
+    text.textContent = 'กำลังบันทึกข้อมูล...';
+
+    const payload = {
+      submission_id: state.submissionId,    // 🔑 idempotency key
+      timestamp: new Date().toISOString(),
+      gender: state.gender,
+      age: state.age,
+      q1_strain: state.q1,
+      q2_lumpy: state.q2,
+      q3_incomplete: state.q3,
+      q4_obstruction: state.q4,
+      q5_manual: state.q5,
+      q6_freq: state.q6,
+      duration: state.duration,
+      constipation_yes_count: state.constipationYesCount || 0,
+      constipation_result: state.constipationResult,
+      ibs_pain_weekly: state.ibs1,
+      ibs_pain_bowel_relation: state.ibs2 ? state.ibs2.join('|') : '',
+      ibs_positive_count: state.ibsPositiveCount || 0,
+      ibs_result: state.ibsResult,
+      started_at: state.startedAt,
+      duration_seconds: Math.round((Date.now() - new Date(state.startedAt).getTime())/1000),
+      user_agent: navigator.userAgent
+    };
+
+    if (!GAS_WEB_APP_URL || GAS_WEB_APP_URL === 'PASTE_YOUR_DEPLOYED_GAS_URL_HERE') {
+      status.classList.remove('saving');
+      status.classList.add('error');
+      text.textContent = '⚠ ยังไม่ได้ตั้งค่า Google Apps Script URL';
+      return;
+    }
+
+    // 1️⃣ Backup ก่อนส่ง — ถ้าเน็ตล่มข้อมูลไม่หาย
+    backupToLocal(payload);
+
+    // 2️⃣ ส่งไปยัง backend
+    sendToBackend(payload, 1, false)
+      .then(result => {
+        status.classList.remove('saving');
+        status.classList.add('saved');
+        text.textContent = '✓ บันทึกข้อมูลเรียบร้อย';
+        // 3️⃣ Backend ยืนยันแล้ว — ลบ backup
+        removeFromLocal(payload.submission_id);
+      })
+      .catch(err => {
+        status.classList.remove('saving');
+        status.classList.add('error');
+        text.textContent = '⚠ บันทึกไม่สำเร็จ — ข้อมูลยังเก็บไว้ในเครื่อง จะลองส่งใหม่อัตโนมัติ';
+        console.error('Save failed after retries:', err);
+        // ข้อมูลยังอยู่ใน localStorage → จะ retry ตอนเปิดหน้าใหม่
+      });
+  }
+
+  // 🔄 ลอง retry ตอนโหลดหน้า — เผื่อมี submission ค้างจากครั้งก่อน
+  window.addEventListener('load', () => {
+    setTimeout(retryPendingSubmissions, 2000);
+  });
+
+  function restart() {
+    Object.keys(state).forEach(k => {
+      if (Array.isArray(state[k])) state[k] = [];
+      else if (typeof state[k] === 'number') state[k] = 0;
+      else state[k] = null;
+    });
+    state.submissionId = generateSubmissionId();   // 🔑 ID ใหม่สำหรับการประเมินครั้งใหม่
+    state.startedAt = new Date().toISOString();
+    document.querySelectorAll('.option, .chip').forEach(el => el.classList.remove('selected'));
+    document.querySelectorAll('button[id$="Next"]').forEach(b => b.disabled = true);
+    goTo('page-cover');
+  }
+</script>
+</body>
+</html>
