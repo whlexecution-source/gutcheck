@@ -1091,7 +1091,7 @@
 
 <script>
   // ===== CONFIG =====
-  const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzURuN3Sm87wcMvCthA6GwuwTd-nD2xtuDCvc7dL7IiDT_DhPTUWMQgfwE_LxKBUPMh/exec";
+  const GAS_WEB_APP_URL = "PASTE_YOUR_DEPLOYED_GAS_URL_HERE";
 
   // ===== Submission ID generator (UUID v4) =====
   function generateSubmissionId() {
@@ -1499,20 +1499,18 @@
     // 1️⃣ Backup ก่อนส่ง — ถ้าเน็ตล่มข้อมูลไม่หาย
     backupToLocal(payload);
 
-    // 2️⃣ ส่งไปยัง backend
-    sendToBackend(payload, 1, false)
-      .then(result => {
-        status.classList.remove('saving');
-        status.classList.add('saved');
-        text.textContent = '✓ บันทึกข้อมูลเรียบร้อย';
-        // 3️⃣ Backend ยืนยันแล้ว — ลบ backup
+    // 2️⃣ แสดงสำเร็จทันที (Optimistic UI)
+    status.classList.remove('saving');
+    status.classList.add('saved');
+    text.textContent = '✓ บันทึกข้อมูลเรียบร้อย';
+
+    // 3️⃣ ส่งไปยัง backend เบื้องหลัง
+    sendToBackend(payload, 1, true)
+      .then(() => {
         removeFromLocal(payload.submission_id);
       })
       .catch(err => {
-        status.classList.remove('saving');
-        status.classList.add('error');
-        text.textContent = '⚠ บันทึกไม่สำเร็จ — ข้อมูลยังเก็บไว้ในเครื่อง จะลองส่งใหม่อัตโนมัติ';
-        console.error('Save failed after retries:', err);
+        console.warn('Save failed after retries — data kept in localStorage:', err);
         // ข้อมูลยังอยู่ใน localStorage → จะ retry ตอนเปิดหน้าใหม่
       });
   }
