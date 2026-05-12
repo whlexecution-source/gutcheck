@@ -975,7 +975,7 @@
       </div>
       <div class="nav">
         <button class="btn btn-secondary" onclick="goTo('page-q5')">ย้อนกลับ</button>
-        <button class="btn btn-primary" id="q6Next" disabled onclick="goTo('page-duration')">ถัดไป</button>
+        <button class="btn btn-primary" id="q6Next" disabled onclick="checkDuration()">ถัดไป</button>
       </div>
     </div>
   </section>
@@ -1091,7 +1091,7 @@
 
 <script>
   // ===== CONFIG =====
-  const GAS_WEB_APP_URL = "https://script.google.com/a/macros/whitelineactivation.com/s/AKfycbzURuN3Sm87wcMvCthA6GwuwTd-nD2xtuDCvc7dL7IiDT_DhPTUWMQgfwE_LxKBUPMh/exec";
+  const GAS_WEB_APP_URL = "PASTE_YOUR_DEPLOYED_GAS_URL_HERE";
 
   // ===== Submission ID generator (UUID v4) =====
   function generateSubmissionId() {
@@ -1103,6 +1103,9 @@
       return v.toString(16);
     });
   }
+
+  // ===== Collector Ref (from URL ?ref=...) =====
+  const collectorRef = new URLSearchParams(window.location.search).get('ref') || 'unknown';
 
   // ===== State =====
   const state = {
@@ -1206,6 +1209,15 @@
       });
     });
   });
+
+  function checkDuration() {
+    if (countConstipationYes() >= 2) {
+      goTo('page-duration');
+    } else {
+      state.duration = null;
+      finishPart1();
+    }
+  }
 
   function countConstipationYes() {
     return ['q1','q2','q3','q4','q5','q6'].filter(k => state[k] === 'yes').length;
@@ -1471,6 +1483,7 @@
       ibs_pain_bowel_relation: state.ibs2 ? state.ibs2.join('|') : '',
       ibs_positive_count: state.ibsPositiveCount || 0,
       ibs_result: state.ibsResult,
+      collector_ref: collectorRef,
       started_at: state.startedAt,
       duration_seconds: Math.round((Date.now() - new Date(state.startedAt).getTime())/1000),
       user_agent: navigator.userAgent
