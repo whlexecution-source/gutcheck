@@ -329,6 +329,33 @@
     color: var(--text-secondary);
   }
 
+  /* Prominent multi-select indicator — per pptx feedback */
+  .q-helper.multi-hint {
+    background: #fff4e0;
+    border-left: 3px solid var(--warning);
+    color: var(--warning);
+    font-weight: 600;
+    font-size: 14px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .q-helper.multi-hint::before {
+    content: "☑";
+    color: var(--warning);
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .q-helper.multi-hint strong {
+    background: var(--warning);
+    color: white;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-weight: 700;
+    margin: 0 2px;
+  }
+
   /* Form fields */
   .field-block { margin-bottom: 28px; }
   .field-label {
@@ -492,7 +519,7 @@
     color: var(--primary);
   }
 
-  /* Result page */
+  /* Result page — Solid colored hero (per pptx feedback) */
   .result-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -506,6 +533,22 @@
     border-bottom: 1px solid var(--border);
     position: relative;
   }
+
+  /* Solid colored backgrounds — green / orange / red */
+  .result-card.positive .result-header {
+    background: #fce8e6;
+    border-bottom: 1px solid #f5b7b1;
+  }
+  .result-card.warn .result-header {
+    background: #fde8d4;
+    border-bottom: 1px solid #f1c98a;
+  }
+  .result-card.clear .result-header {
+    background: #d4edda;
+    border-bottom: 1px solid #a3d9b1;
+  }
+
+  /* Top accent stripe (kept thin) */
   .result-header::before {
     content: "";
     position: absolute;
@@ -527,25 +570,27 @@
   .result-status {
     font-family: 'Inter', sans-serif;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    padding: 4px 10px;
+    padding: 5px 12px;
     border-radius: 4px;
+    background: rgba(255,255,255,0.7);
   }
-  .result-card.positive .result-status { background: #fce8e6; color: var(--danger); }
-  .result-card.warn .result-status { background: #fef7e0; color: var(--warning); }
-  .result-card.clear .result-status { background: #e6f4ea; color: var(--success); }
+  .result-card.positive .result-status { color: var(--danger); }
+  .result-card.warn .result-status { color: var(--warning); }
+  .result-card.clear .result-status { color: var(--success); }
 
   .result-id {
     font-family: 'Inter', sans-serif;
     font-size: 11px;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     letter-spacing: 0.04em;
+    opacity: 0.75;
   }
 
   .result-title {
-    font-weight: 600;
+    font-weight: 700;
     font-size: clamp(22px, 3.5vw, 28px);
     line-height: 1.3;
     margin-bottom: 12px;
@@ -596,7 +641,7 @@
     color: var(--text);
   }
 
-  /* Recommendation panel */
+  /* Recommendation panel — prominent per pptx feedback */
   .panel {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -627,6 +672,90 @@
     color: var(--text-secondary);
     line-height: 1.65;
   }
+
+  /* Prominent recommendation panel for final results */
+  .panel-rec {
+    background: linear-gradient(180deg, var(--primary-soft) 0%, #fff 100%);
+    border: 1px solid var(--primary-light);
+    border-radius: var(--radius-lg);
+    padding: 28px 32px;
+    margin-bottom: 12px;
+  }
+  .panel-rec .panel-title {
+    font-size: 13px;
+    color: var(--primary-dark);
+    margin-bottom: 18px;
+  }
+  .panel-rec .panel-title::before {
+    background: var(--primary);
+    width: 4px;
+    height: 16px;
+  }
+  .panel-rec ul.bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 14px;
+  }
+  .panel-rec ul.bullets li {
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.55;
+    padding-left: 28px;
+    position: relative;
+    font-weight: 500;
+  }
+  .panel-rec ul.bullets li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 8px;
+    height: 8px;
+    background: var(--primary);
+    border-radius: 50%;
+  }
+  .panel-rec ul.bullets li strong {
+    color: var(--primary-dark);
+    font-weight: 600;
+  }
+  .panel-rec ul.bullets li .bullet-sub {
+    display: block;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    line-height: 1.55;
+  }
+
+  /* Variant colors for recommendation panel matching result type */
+  .panel-rec.tone-positive {
+    background: linear-gradient(180deg, #fce8e6 0%, #fff 100%);
+    border-color: #f5b7b1;
+  }
+  .panel-rec.tone-positive .panel-title { color: var(--danger); }
+  .panel-rec.tone-positive .panel-title::before,
+  .panel-rec.tone-positive ul.bullets li::before { background: var(--danger); }
+  .panel-rec.tone-positive ul.bullets li strong { color: var(--danger); }
+
+  .panel-rec.tone-warn {
+    background: linear-gradient(180deg, #fde8d4 0%, #fff 100%);
+    border-color: #f1c98a;
+  }
+  .panel-rec.tone-warn .panel-title { color: var(--warning); }
+  .panel-rec.tone-warn .panel-title::before,
+  .panel-rec.tone-warn ul.bullets li::before { background: var(--warning); }
+  .panel-rec.tone-warn ul.bullets li strong { color: var(--warning); }
+
+  .panel-rec.tone-clear {
+    background: linear-gradient(180deg, #d4edda 0%, #fff 100%);
+    border-color: #a3d9b1;
+  }
+  .panel-rec.tone-clear .panel-title { color: var(--success); }
+  .panel-rec.tone-clear .panel-title::before,
+  .panel-rec.tone-clear ul.bullets li::before { background: var(--success); }
+  .panel-rec.tone-clear ul.bullets li strong { color: var(--success); }
 
   /* Transition section */
   .transition-card {
@@ -843,11 +972,11 @@
       <div class="options" data-field="q1">
         <button class="option" data-val="yes">
           <span class="radio"></span>
-          <span class="opt-body"><span class="opt-label">มีอาการ</span><span class="opt-sub">ต้องออกแรงเบ่งบ่อยครั้ง</span></span>
+          <span class="opt-body"><span class="opt-label">มีอาการเบ่งขณะถ่าย</span></span>
         </button>
         <button class="option" data-val="no">
           <span class="radio"></span>
-          <span class="opt-body"><span class="opt-label">ไม่มีอาการ</span><span class="opt-sub">ถ่ายได้ปกติ ไม่ต้องเบ่ง</span></span>
+          <span class="opt-body"><span class="opt-label">ไม่มีอาการเบ่งขณะถ่าย</span></span>
         </button>
       </div>
       <div class="nav">
@@ -866,8 +995,7 @@
         <button class="option" data-val="yes">
           <span class="radio"></span>
           <span class="opt-body">
-            <span class="opt-label">มีลักษณะเป็นก้อนแข็ง</span>
-            <span class="opt-sub">คล้ายเม็ดถั่ว หรือก้อนแข็งเป็นพวง (Bristol Type 1–2)</span>
+            <span class="opt-label">มีลักษณะเป็นก้อนแข็ง คล้ายเม็ดถั่ว หรือพวงองุ่นแข็ง (Bristol Type 1-2)</span>
             <div class="stool-illustration">
               <div class="pellet"></div><div class="pellet"></div><div class="pellet"></div>
               <div class="lump"></div>
@@ -877,8 +1005,7 @@
         <button class="option" data-val="no">
           <span class="radio"></span>
           <span class="opt-body">
-            <span class="opt-label">ไม่เป็นก้อนแข็ง</span>
-            <span class="opt-sub">ลักษณะนุ่ม ถ่ายง่าย (Bristol Type 3–5)</span>
+            <span class="opt-label">ไม่เป็นก้อนแข็ง ลักษณะนุ่ม ถ่ายง่าย (Bristol Type 3-5)</span>
             <div class="stool-illustration">
               <div class="smooth"></div>
             </div>
@@ -1041,7 +1168,7 @@
     <div class="question-card">
       <div class="q-section-tag">Section 2 · Item 2</div>
       <h2 class="q-title">อาการปวดท้องสัมพันธ์กับลักษณะใดบ้าง?</h2>
-      <p class="q-helper">Multi-select — สามารถเลือกได้มากกว่า 1 ข้อ ตามเกณฑ์ Rome IV ต้องมีอย่างน้อย 2 ใน 3 ข้อ</p>
+      <p class="q-helper multi-hint"><strong>Multi-select</strong> เลือกได้มากกว่า 1 ข้อ · ตามเกณฑ์ Rome IV ต้องมีอย่างน้อย 2 ใน 3 ข้อ</p>
       <div class="options" id="ibs2Options" data-field="ibs2" data-multi="true">
         <button class="option" data-val="bowel">
           <span class="radio"></span>
@@ -1091,7 +1218,7 @@
 
 <script>
   // ===== CONFIG =====
-  const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzURuN3Sm87wcMvCthA6GwuwTd-nD2xtuDCvc7dL7IiDT_DhPTUWMQgfwE_LxKBUPMh/exec";
+  const GAS_WEB_APP_URL = "PASTE_YOUR_DEPLOYED_GAS_URL_HERE";
 
   // ===== Submission ID generator (UUID v4) =====
   function generateSubmissionId() {
@@ -1228,21 +1355,31 @@
     const meets2 = yesCount >= 2;
     const isLong = state.duration === 'long';
 
-    let result, title, desc, cls, status, code;
+    let result, title, desc, cls, status, code, recommendations;
     if (meets2 && isLong) {
       result = 'ท้องผูกเรื้อรัง';
       title = 'ภาวะท้องผูกเรื้อรัง';
-      desc = 'จากคำตอบ ท่านเข้าเกณฑ์ภาวะท้องผูกเรื้อรัง (Chronic Constipation) ตามเกณฑ์ Rome IV ขอแนะนำให้ปรึกษาแพทย์เพื่อรับการวินิจฉัยและคำแนะนำการรักษาที่เหมาะสม';
+      desc = 'ท่านเข้าเกณฑ์ภาวะท้องผูกเรื้อรัง (Chronic Constipation) ตามเกณฑ์ Rome IV';
       cls = 'positive';
       status = 'POSITIVE';
       code = 'C-CHR';
+      recommendations = [
+        { title: 'ปรับพฤติกรรม', sub: 'การรับประทานอาหารที่มีใยอาหาร ดื่มน้ำเพียงพอ และออกกำลังกายสม่ำเสมอ' },
+        { title: 'หากการปรับพฤติกรรมไม่เพียงพอ', sub: 'สามารถรับประทานยาระบาย เพื่อไม่ให้รบกวนคุณภาพชีวิต โดยการใช้ยาระบายระยะยาว ควรเลือกยาระบายที่มีความปลอดภัย' },
+        { title: 'เสริมโพรไบโอติก (Probiotic)', sub: 'อาจช่วยเสริมสร้างภูมิคุ้มกันและคงสมดุลของลำไส้ระยะยาว' }
+      ];
     } else if (meets2 && !isLong) {
       result = 'ท้องผูก (ไม่เรื้อรัง)';
       title = 'ภาวะท้องผูกระยะสั้น';
-      desc = 'ท่านมีอาการที่เข้าเกณฑ์ภาวะท้องผูก แต่ยังไม่ครบเกณฑ์ระยะเวลาเรื้อรัง (3 เดือน) แนะนำให้เฝ้าระวังอาการ ปรับพฤติกรรมการรับประทานอาหารและดื่มน้ำให้เพียงพอ';
+      desc = 'ท่านมีอาการเข้าเกณฑ์ภาวะท้องผูก แต่ยังไม่ครบเกณฑ์ระยะเวลาเรื้อรัง (3 เดือน)';
       cls = 'warn';
       status = 'BORDERLINE';
       code = 'C-AC';
+      recommendations = [
+        { title: 'ปรับพฤติกรรม', sub: 'การรับประทานอาหารที่มีใยอาหาร ดื่มน้ำให้เพียงพอ และออกกำลังกายสม่ำเสมอ' },
+        { title: 'เสริมโพรไบโอติก (Probiotic)', sub: 'อาจช่วยเสริมสร้างภูมิคุ้มกันและคงสมดุลของลำไส้' },
+        { title: 'ทานยาระบายแบบครั้งคราว', sub: 'ใช้ในกรณีที่จำเป็น ไม่แนะนำให้ใช้ติดต่อกันเป็นเวลานาน' }
+      ];
     } else {
       result = 'ไม่เข้าเกณฑ์ท้องผูก';
       title = 'ไม่พบภาวะท้องผูก';
@@ -1250,10 +1387,17 @@
       cls = 'clear';
       status = 'NEGATIVE';
       code = 'C-NEG';
+      recommendations = [
+        { title: 'เสริมโพรไบโอติก (Probiotic)', sub: 'อาจช่วยเสริมสร้างภูมิคุ้มกันและคงสมดุลของลำไส้ในระยะยาว' }
+      ];
     }
 
     state.constipationResult = result;
     state.constipationYesCount = yesCount;
+
+    const recBullets = recommendations.map(r =>
+      `<li><strong>${r.title}</strong><span class="bullet-sub">${r.sub}</span></li>`
+    ).join('');
 
     document.getElementById('result1Content').innerHTML = `
       <div class="result-card ${cls}">
@@ -1280,12 +1424,9 @@
           </div>
         </div>
       </div>
-      <div class="panel">
+      <div class="panel-rec tone-${cls}">
         <div class="panel-title">คำแนะนำเพิ่มเติม</div>
-        <div class="panel-body">
-          การเสริมโปรไบโอติก (Probiotic) อาจช่วยเสริมสร้างภูมิคุ้มกันและคงสมดุลของลำไส้
-          เหมาะสำหรับทั้งผู้ที่มีอาการและผู้ที่ต้องการดูแลสุขภาพลำไส้ในระยะยาว
-        </div>
+        <ul class="bullets">${recBullets}</ul>
       </div>
     `;
 
@@ -1329,25 +1470,37 @@
     const isIBS = state.ibsResult === 'ลำไส้แปรปรวน (IBS)';
     const isNoIBS = state.ibsResult === 'ไม่มี IBS';
 
-    let title, desc, cls, status, code;
+    let title, desc, cls, status, code, recommendations;
     if (isIBS) {
       title = 'ภาวะลำไส้แปรปรวน (IBS)';
-      desc = 'ตามเกณฑ์ Rome IV ท่านเข้าเกณฑ์โรคลำไส้แปรปรวน (Irritable Bowel Syndrome) ขอแนะนำให้ปรึกษาแพทย์ระบบทางเดินอาหารเพื่อยืนยันการวินิจฉัยและวางแผนการรักษา';
+      desc = 'ตามเกณฑ์ Rome IV ท่านเข้าเกณฑ์โรคลำไส้แปรปรวน (Irritable Bowel Syndrome)';
       cls = 'positive';
       status = 'POSITIVE';
       code = 'IBS-DX';
+      recommendations = [
+        { title: 'ปรึกษาแพทย์หรือเภสัชกร', sub: 'เพื่อยืนยันการวินิจฉัยและรับยาพื้นฐานที่เหมาะสม' },
+        { title: 'เสริมโพรไบโอติก (Probiotic) สายพันธุ์เฉพาะ', sub: 'มีการศึกษาช่วยบรรเทากลุ่มอาการลำไส้แปรปรวนและลดอาการวิตกกังวลจากโรคได้' }
+      ];
     } else if (isNoIBS) {
       title = 'ไม่พบภาวะลำไส้แปรปรวน';
       desc = 'ท่านไม่มีอาการที่เข้าเกณฑ์ IBS ตาม Rome IV สุขภาพลำไส้ของท่านอยู่ในเกณฑ์ปกติ';
       cls = 'clear';
       status = 'NEGATIVE';
       code = 'IBS-NEG';
+      recommendations = [
+        { title: 'เสริมโพรไบโอติก (Probiotic)', sub: 'อาจช่วยเสริมสร้างภูมิคุ้มกันและคงสมดุลของลำไส้ระยะยาว' }
+      ];
     } else {
       title = 'อาการปวดท้องเรื้อรัง';
-      desc = 'แม้ไม่เข้าเกณฑ์ IBS ตามมาตรฐาน Rome IV แต่ท่านมีอาการปวดท้องเรื้อรังที่ควรได้รับการดูแล โปรไบโอติกอาจช่วยบรรเทาอาการได้';
+      desc = 'แม้ไม่เข้าเกณฑ์ IBS ตามมาตรฐาน Rome IV แต่ท่านมีอาการปวดท้องเรื้อรังที่ควรได้รับการดูแล';
       cls = 'warn';
       status = 'INDETERMINATE';
       code = 'CAP';
+      recommendations = [
+        { title: 'ปรึกษาแพทย์', sub: 'เพื่อค้นหาสาเหตุอาการปวดท้องเรื้อรัง' },
+        { title: 'ปรับพฤติกรรมการรับประทานอาหาร', sub: 'หลีกเลี่ยงอาหารที่กระตุ้นอาการ และรับประทานเป็นมื้อสม่ำเสมอ' },
+        { title: 'เสริมโพรไบโอติก (Probiotic) สายพันธุ์เฉพาะ', sub: 'ที่มีการศึกษาบรรเทาอาการปวดท้องเรื้อรังได้ ช่วยเพิ่มคุณภาพชีวิต' }
+      ];
     }
 
     const part1Box = state.constipationResult ? `
@@ -1358,6 +1511,10 @@
         </div>
       </div>
     ` : '';
+
+    const recBullets = recommendations.map(r =>
+      `<li><strong>${r.title}</strong><span class="bullet-sub">${r.sub}</span></li>`
+    ).join('');
 
     document.getElementById('finalContent').innerHTML = `
       <div class="result-card ${cls}">
@@ -1371,13 +1528,9 @@
         </div>
       </div>
       ${part1Box}
-      <div class="panel">
+      <div class="panel-rec tone-${cls}">
         <div class="panel-title">คำแนะนำทางการแพทย์</div>
-        <div class="panel-body">
-          ${isIBS
-            ? 'ขอแนะนำให้ปรึกษาแพทย์ระบบทางเดินอาหารเพื่อยืนยันการวินิจฉัยและรับการรักษาที่เหมาะสม การเสริมโปรไบโอติกเฉพาะกลุ่มอาจช่วยบรรเทาอาการปวดท้องและปรับสมดุลลำไส้'
-            : 'ดูแลสุขภาพลำไส้ด้วยการรับประทานอาหารที่มีใยอาหาร ดื่มน้ำให้เพียงพอ ออกกำลังกายสม่ำเสมอ และอาจพิจารณาเสริมโปรไบโอติกเพื่อสมดุลของระบบทางเดินอาหาร'}
-        </div>
+        <ul class="bullets">${recBullets}</ul>
       </div>
     `;
   }
